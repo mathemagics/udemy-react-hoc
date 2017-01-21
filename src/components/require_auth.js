@@ -3,8 +3,21 @@ import { connect } from 'react-redux';
 
 export default (ComposedComponent) => {
   class Authentication extends Component {
+    static contextTypes = {
+      router: React.PropTypes.object
+    }
+    componentWillMount() {
+      if(!this.props.auth) {
+        this.context.router.push('/');
+      }
+    }
+    componentWillUpdate(nextProps) {
+      if(!nextProps.auth) {
+        this.context.router.push('/');
+      }
+    }
     render() {
-      return <ComposedComponent {...this.props} />
+        return <ComposedComponent {...this.props} />
     }
   }
   function mapStateToProps({auth}) {
